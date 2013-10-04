@@ -1,0 +1,58 @@
+/* APP */
+/* view */
+
+.view {
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translate(0, 0);
+  transition: transform 0.5s ease;
+}
+
+.view:not(.view-noscroll) {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.view-right {
+  transform: translateX(100%);
+}
+
+.view-bottom {
+  transform: translateY(100%);
+}
+
+/* show only the first screen */
+section[role="region"]:not(#start) {
+  display: none;
+}
+
+#start section {
+  background: url("../img/icon/128.png") center center no-repeat;
+}
+
+.full-size {
+  width: 100%;
+  border: 0;
+}
+
+[data-type="list"] li {
+  padding: 5px 0;
+}
+
+[data-type="list"] li,
+[data-type="list"] li > a {
+  height: auto;
+}
+
+.feed-link {
+  display: none;
+}
+
+.feed-actions a {
+  color: #000;
+  text-decoration: none;
+}

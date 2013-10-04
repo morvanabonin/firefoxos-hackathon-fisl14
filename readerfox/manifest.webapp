@@ -1,0 +1,29 @@
+{
+  "version": "0.1",
+  "name": "ReaderFox",
+  "description": "A readability client for Firefox OS.",
+  "launch_path": "app.html",
+  "icons": {
+    "16": "/app/img/icons/mortar-16.png",
+    "48": "/app/img/icons/mortar-48.png",
+    "128": "/app/img/icons/mortar-128.png"
+  },
+  "installs_allowed_from": ["*"],
+  "permissions": {
+    "systemXHR": {}
+  },
+  "developer": {
+    "name": "Carlos Tosta",
+    "url": "http://www.rubyout.com"
+  },
+  "type": "privileged",
+  "activities": {
+    "view": {
+      "type": "url",
+      "url": {
+        "required": true,
+        "regexp": "/^https?:.{1,16384}$/"
+      }
+    }
+  }
+}

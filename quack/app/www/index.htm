@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+            <head manifest="offline.appcache">
+		<meta charset='utf-8' />
+                    <meta charset="utf-8">
+
+                    <title>Quack</title>
+                    <meta name="description" content="">
+                    <meta name="viewport" content="width=device-width">
+		<style>
+			/** TODO: adicionar o reset */
+			#ball {
+				width: 32px; height: 32px;
+				border-radius: 10px;
+				background: url('img/quack.png');
+			}
+
+			html, body, #board {
+				width: 100%; height: 100%;
+				border: 0; padding: 0; margin: 0;
+			}
+
+      #board {
+          max-height: 400px;
+          max-width: 400px;
+				border: 5px solid red;
+				-moz-box-sizing: border-box;
+        background:
+          linear-gradient(135deg, #69D2E7 25%, transparent 25%) -25px 0,
+          linear-gradient(225deg, #69D2E7 25%, transparent 25%) -25px 0,
+          linear-gradient(45deg, #69D2E7 25%, transparent 25%),
+          linear-gradient(315deg, #69D2E7 25%, transparent 25%);
+
+        background-color: #A7DBD8;
+
+        animation: wave 10s; 
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }   
+
+      @keyframes wave {
+        from {
+          background:
+            linear-gradient(135deg, #69D2E7 25%, transparent 25%) -20px 0,
+            linear-gradient(225deg, #69D2E7 25%, transparent 25%) -20px 0,
+            linear-gradient(315deg, #69D2E7 25%, transparent 25%),
+            linear-gradient(45deg, #69D2E7 25%, transparent 25%);
+          background-size: 40px 40px;
+        }   
+
+        to {
+          background:
+            linear-gradient(135deg, #69D2E7 25%, transparent 25%) -40px 0,
+            linear-gradient(225deg, #69D2E7 25%, transparent 25%) -40px 0,
+            linear-gradient(315deg, #69D2E7 25%, transparent 25%) -20px 0,
+            linear-gradient(45deg, #69D2E7 25%, transparent 25%) -20px 0;
+          background-size: 40px 40px;
+        }   
+      }
+
+      #dialog {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background-color: black;
+          opacity: 0.8;
+          color: white;
+      }
+		</style>
+	</head>
+	<body>
+		<div id='board'>
+			<div id='ball'></div>
+                        
+                <div id='dialog'>
+                    <h3>Quack</h3>
+                    Este programa é software livre pela licença GPL v3
+                    <br/>
+                    Código fonte e contribuições em <a href="https://github.com/ricardorover/quack">https://github.com/ricardorover/quack</a>
+                    <br/>
+                    <br/>
+                    Equilibre o pato no centro da tela, não o deixe cair!
+                    <br/>
+                    <br/>
+                    Desenvolvido para Mozilla Firefox
+                    <button onclick="javascript:hideDialog()">Jogar</button>
+                </div>
+		</div>
+		<script>
+			var acceleration = [0, 0], interval = 100;
+
+			var ball = {
+				dom: document.getElementById('ball'),
+								// x, y
+				velocity: [0, 0],
+				position: [0, 0]
+			}
+                        
+                        var board = document.getElementById('board');
+                        var boardSize = [board.offsetWidth, board.offsetHeight] 
+                        
+                        function onMobileControlChange(evenMt) {
+                            console.log(event.acceleration.x + ' m/s2');
+                            acceleration[0] = event.acceleration.x;
+                            acceleration[1] = event.acceleration.y;
+                        }
+
+			function initDesktop() {
+				document.addEventListener('keyup', function(evt) {
+					var mod = 15;
+
+					if (evt.keyCode == evt.DOM_VK_RIGHT) {
+						acceleration[0] += mod;
+					}
+					else if (evt.keyCode == evt.DOM_VK_LEFT) {
+						acceleration[0] -= mod;
+					}
+					else if (evt.keyCode == evt.DOM_VK_UP) {
+						acceleration[1] -= mod;
+					}
+					else if (evt.keyCode == evt.DOM_VK_DOWN) {
+						acceleration[1] += mod;
+					}
+				});
+			}
+
+			function update() {
+				ball.dom.style.left = ball.position[0] + 'px';
+				ball.dom.style.top = ball.position[1] + 'px';
+			}
+
+			function hit(ball) {
+                                var zeroLeft = -ball.dom.offsetWidth;
+                                var zeroTop = -ball.dom.offsetHeight;
+				if(ball.position[0]<zeroLeft||ball.position[1]<zeroTop||
+                                        ball.position[0]>board.offsetWidth||
+                                        ball.position[1]>board.offsetHeight)
+                                    return true;
+                                else
+                                    return false;
+			}
+
+			function loop(timestamp) {
+				if (loop.timestamp === undefined) {
+					loop.timestamp = timestamp;
+					return;
+				}
+				var diff = (timestamp - loop.timestamp) / 1000;
+				loop.timestamp = timestamp;
+
+				ball.position[0] += ball.velocity[0] * diff + (diff * acceleration[0]) / 2;
+				ball.position[1] += ball.velocity[1] * diff + (diff * acceleration[1]) / 2;
+
+				ball.velocity[0] += diff * acceleration[0];
+				ball.velocity[1] += diff * acceleration[1];
+
+				// TODO: take angle into consideration
+				if (hit(ball)) {
+					acceleration = [0, 0];
+					ball.velocity = [0, 0];
+                                        showGameOverDialog();
+				}
+
+				update();
+			}
+
+                        function initMobile() {
+                            window.addEventListener('devicemotion', onMobileControlChange);
+                        }
+
+			function initTimer() {
+				{
+					var start = window.mozAnimationStartTime; // Date.now()
+
+					!function _requestFrame(timestamp) {
+						loop(timestamp);
+						window.mozRequestAnimationFrame(_requestFrame);
+					}(start);
+				}
+				/*
+				{
+					var count = 0;
+					window.setInterval(function(){ loop(interval * count++), interval);
+				}
+				*/
+			}
+
+			function initElements() {
+                                //TODO init ball element on center of board
+				ball.dom.parentElement.style.position = 'relative';
+				var style = ball.dom.style;
+				
+				style.position = 'absolute';
+				// style.transition = 'left ' + interval + 'ms';
+			}
+                        
+                        function hideDialog() {
+                            document.getElementById('dialog').style.visibility = 'hidden';
+                            startGame();
+                        }
+                        
+                        function showGameOverDialog() {
+                            ball.dom.style.visibility='hidden';
+                            document.getElementById('dialog').innerHTML =
+                                    "<h2>Fim de jogo!<br/>\n\
+                                        O pato se foi :(</h2>\n\
+                                    <button onclick='javascript:location.reload(true)'>Novo jogo</button>";
+                            document.getElementById('dialog').style.visibility = 'visible';
+                            
+                        }
+                        
+                        function startGame(){
+                            //TODO reset elements
+                            initDesktop();//uses keyboard
+                            initMobile();//uses accelerometer
+                        }
+			
+			window.onload = function() {
+                            initTimer();
+                            initElements();
+			}
+		</script>
+	</body>
+</html>

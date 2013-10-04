@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# v0.1
+/app.html
+/app.js
+/app.css
+/js/feed.js
+/js/jquery-2.0.3.min.js
+#/js/libs/bootstrap/css/bootstrap-responsive.min.css
+/js/libs/bootstrap-responsive.min.css
+/js/libs/bootstrap/css/bootstrap.min.css
+/js/libs/bootstrap/js/bootstrap.min.js
+/js/libs/bootstrap/img/glyphicons-halflings-white.png
+/js/libs/bootstrap/img/glyphicons-halflings.png

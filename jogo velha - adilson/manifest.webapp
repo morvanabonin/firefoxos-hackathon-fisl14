@@ -1,0 +1,13 @@
+{
+  "name": "Jogo da Velha",
+  "description": "Jogo da velha desenvolvido para Firefox OS.",
+  "launch_path": "/index.html",
+  "icons": {
+    "128": "/img/icon.png"
+},
+  "developer": {
+    "name": "Adilson",
+    "url": "file:///home/home/%C3%81rea%20de%20Trabalho/jogo%20velha/index.html"
+  },
+  "default_locale": "en"
+}

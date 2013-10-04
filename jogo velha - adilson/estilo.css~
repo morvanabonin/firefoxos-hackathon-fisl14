@@ -1,0 +1,109 @@
+body{
+    background-color:#FFED6B;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family:arial;
+}
+.bg{
+    background:url("img/bg.png") no-repeat;
+    background-color:#fff298;
+    background-position:relative;
+}
+#menu a{
+    color:#fff;
+    text-decoration:none;
+    margin:0 20px;
+}
+#menu a:hover{
+    color:#999;
+}
+#menu{
+    width:100%;
+    padding:2%;
+    margin:0;
+    background:#9B5D2B;
+}
+#iniciar{
+    width:50%;
+    padding:1%;
+    border:1px solid #AD6939;
+    margin:20% auto;
+    text-align:center;
+    color:#fff;
+    border-radius:25px;
+    font-size:32px;
+    background:#7C4721;
+    
+}
+a{
+    text-decoration:none;
+}
+h2{
+    text-align:center;
+    color:#fff;
+}
+#jogo{
+    width:40%;
+    margin:1px 30%;
+    border:#9B5D2B solid 6px;
+    border-radius:5px;
+    background-color:#FFF;
+}
+#resultado{
+    width:91%;
+    padding:5px;
+    margin:10px auto;
+    background:#9b5d2b;
+    text-align:center;
+}
+h1{
+    color:#fff;
+    font-size:12px;
+}
+ 
+.linha{
+padding-bottom: 33%;
+    border-bottom:#9B5D2B solid 1px;
+}
+ 
+.casa{
+    width:32.78%;
+    padding-bottom: 33%;
+    border-right:#9B5D2B solid 1px;
+    float:left;
+}
+@media only screen and (min-width : 150px) and (max-width : 780px){
+
+#jogo{
+    width:91%;
+    margin:1% 3%;
+    border:#9B5D2B solid 6px;
+    border-radius:5px;
+    background-color:#FFF;
+}
+ 
+.linha{
+padding-bottom: 33%;
+    border-bottom:#9B5D2B solid 1px;
+}
+
+.casa{
+    width:32.97%;
+    padding-bottom: 33%;
+    border-right:#9B5D2B solid 1px;
+    float:left;
+}
+
+#resultado{
+    width:91%;
+    padding:2%;
+    margin:3%;
+    background:#9b5d2b;
+    text-align:center;
+}
+h1{
+    color:#fff;
+    font-size:12px;
+}
+}
